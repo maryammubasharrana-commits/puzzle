@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Grammar Escape Room: The Locked Lab</title>
+<style>
+:root{
+  --bg:#fde7f3;--paper:#fffafe;--ink:#3b2a5a;--muted:#6f5f8e;--line:#e3d3f2;--accent:#7c5cff;--accent-ink:#fff;
+  --alert:#d6336c;--alert-bg:#ffe3ee;--ok:#188a63;--ok-bg:#dff7ec;--slot:#f1e8fb;--wall:#ffe9d6;--floor:#dcc8f7;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#1f1638;--paper:#2c2150;--ink:#f3ecff;--muted:#bfb1e3;--line:#4a3b7a;--accent:#a58bff;--accent-ink:#1f1638;--alert:#ff7fa8;--alert-bg:#43203a;--ok:#6fe0b0;--ok-bg:#17403a;--slot:#392c66;--wall:#3a2d63;--floor:#2a1f4d}
+}
+:root[data-theme="dark"]{--bg:#1f1638;--paper:#2c2150;--ink:#f3ecff;--muted:#bfb1e3;--line:#4a3b7a;--accent:#a58bff;--accent-ink:#1f1638;--alert:#ff7fa8;--alert-bg:#43203a;--ok:#6fe0b0;--ok-bg:#17403a;--slot:#392c66;--wall:#3a2d63;--floor:#2a1f4d}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:16px/1.55 "Trebuchet MS","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;min-height:100vh;
+  background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27180%27%20height%3D%27180%27%20viewBox%3D%270%200%20180%20180%27%3E%3Cg%20fill-opacity%3D%27.5%27%3E%3Cg%20fill%3D%27%23a58bff%27%20transform%3D%27translate%2818%2022%29%20rotate%28-12%2022%2022%29%27%3E%3Crect%20width%3D%2744%27%20height%3D%2744%27%20rx%3D%276%27%2F%3E%3Ccircle%20cx%3D%2722%27%20cy%3D%27-5%27%20r%3D%279%27%2F%3E%3Ccircle%20cx%3D%2749%27%20cy%3D%2722%27%20r%3D%279%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28112%2026%29%20rotate%2830%29%27%20fill%3D%27none%27%20stroke%3D%27%23ff7fb0%27%20stroke-width%3D%275%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20r%3D%2710%27%2F%3E%3Cpath%20d%3D%27M10%200H40M30%200v10M38%200v8%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2828%20112%29%27%3E%3Crect%20y%3D%2712%27%20width%3D%2736%27%20height%3D%2728%27%20rx%3D%276%27%20fill%3D%27%235fd3a8%27%2F%3E%3Cpath%20d%3D%27M8%2012V6a10%2010%200%200%201%2020%200v6%27%20fill%3D%27none%27%20stroke%3D%27%235fd3a8%27%20stroke-width%3D%275%27%2F%3E%3C%2Fg%3E%3Cpath%20fill%3D%27%23ffc94d%27%20d%3D%27M132%20108l5%2011%2012%201-9%208%203%2012-11-6-11%206%203-12-9-8%2012-1z%27%2F%3E%3Cpath%20fill%3D%27%23ff7fb0%27%20d%3D%27M90%2072c-8-9-20%200-10%209l10%209%2010-9c10-9-2-18-10-9z%27%2F%3E%3Cg%20fill%3D%27%237cc6ff%27%20transform%3D%27translate%2888%20126%29%20rotate%2814%29%27%3E%3Crect%20width%3D%2726%27%20height%3D%2726%27%20rx%3D%274%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%27-3%27%20r%3D%276%27%2F%3E%3Ccircle%20cx%3D%2729%27%20cy%3D%2713%27%20r%3D%276%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");background-size:180px 180px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:760px;margin:0 auto;padding:16px 12px 40px}
+.bar{display:flex;background:var(--paper);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;padding:6px 10px !important;justify-content:space-between;align-items:center;gap:8px;font-size:14px;padding:2px 2px 10px;flex-wrap:wrap;font-weight:700}
+.bar b{font-family:ui-monospace,Menlo,Consolas,monospace}
+.bar button{background:var(--paper);border:2px solid var(--line);color:var(--ink);border-radius:999px;padding:3px 12px;font:inherit;font-size:13px;cursor:pointer}
+.win{background:var(--paper);border-radius:18px;overflow:hidden;border:3px solid var(--ink);box-shadow:0 6px 0 var(--ink)}
+.title{background:var(--alert);color:#fff;padding:9px 16px;font-weight:700;font-size:14.5px}
+.title.ok{background:var(--ok)}
+.body{padding:18px 16px 24px}
+h1{font-size:clamp(26px,6vw,36px);line-height:1.15;margin:0 0 12px}
+h2{font-size:20px;line-height:1.2;margin:0}
+p{margin:0 0 12px;max-width:62ch}
+.topic{color:var(--muted);margin:0;font-size:14px}
+.tip{font-size:14.5px;color:var(--muted);margin:0 0 10px}
+.slots{display:flex;gap:7px;margin:0 0 12px;justify-content:center}
+.slot{width:44px;height:50px;border-radius:12px;background:var(--slot);border:2px dashed var(--line);display:grid;place-items:center;font:700 23px ui-monospace,Menlo,Consolas,monospace;position:relative;color:var(--muted)}
+.slot small{position:absolute;top:1px;left:5px;font:700 10px "Trebuchet MS",sans-serif}
+.slot.on{border:2px solid var(--ok);background:var(--ok-bg);color:var(--ok)}
+.scene{position:relative;width:100%;aspect-ratio:4/3;border-radius:14px;border:3px solid var(--ink);overflow:hidden;background:linear-gradient(to bottom,var(--wall) 0 68%,var(--floor) 68% 100%)}
+.scene .deco{position:absolute}
+.desk{left:24%;top:70%;width:48%;height:4%;background:#c79b6d;border:2.5px solid #3b2a5a;border-radius:6px}
+.leg{background:#c79b6d;border:2.5px solid #3b2a5a;width:3%;height:13%;top:73%}
+.rug{left:28%;top:84%;width:40%;height:11%;background:#ff9fc2;border:2.5px solid #3b2a5a;border-radius:50%;opacity:.9}
+.obj{position:absolute;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);transition:transform .15s}
+.obj:hover{transform:scale(1.06) rotate(-1.5deg)}
+.obj svg{width:100%;height:100%;display:block;overflow:visible}
+.obj .lab{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);font:700 11px "Trebuchet MS",sans-serif;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:0 7px;white-space:nowrap}
+.obj .bd{position:absolute;left:-6px;top:-8px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:2px solid var(--ink);font:700 13px/20px ui-monospace,Menlo,Consolas,monospace;text-align:center}
+.obj.done .bd{background:var(--ok);color:#fff}
+.obj.done svg{filter:drop-shadow(0 0 5px #4de3a5)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;font-weight:700;padding:10px 18px;border-radius:999px;border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink);cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.msg{margin-top:12px;padding:9px 12px;border-radius:10px;font-size:15px}
+.msg.bad{background:var(--alert-bg);color:var(--alert);border:2px solid var(--alert)}
+.msg.good{background:var(--ok-bg);color:var(--ok);border:2px solid var(--ok)}
+.msg.hint{background:var(--slot);border:2px dashed var(--muted)}
+.rule{border:2px solid var(--line);border-radius:10px;padding:8px 12px;margin:10px 0;font-size:15px}
+.rule b{display:block}
+.q{background:var(--slot);border-left:5px solid var(--accent);padding:10px 14px;border-radius:0 10px 10px 0;margin:10px 0}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;text-align:left;padding:10px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.opt:hover:not([disabled]){background:var(--slot)}
+.opt.no{opacity:.45;text-decoration:line-through;cursor:not-allowed}
+.chips{display:flex;flex-wrap:wrap;gap:7px;min-height:44px;align-items:center}
+.built{border:2px dashed var(--muted);border-radius:12px;padding:8px;margin:6px 0 10px}
+.chip{font:inherit;padding:6px 11px;border-radius:999px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.built .chip{background:var(--accent);color:var(--accent-ink)}
+.pun{display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center;font-size:17px;line-height:2.2;margin:8px 0}
+.gap{font:700 17px/1 ui-monospace,Menlo,Consolas,monospace;width:24px;height:30px;border-radius:8px;border:2px dashed var(--muted);background:transparent;color:var(--muted);cursor:pointer;padding:0}
+.gap.set{border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink)}
+.tiles{display:flex;gap:9px;flex-wrap:wrap}
+.tile{width:52px;height:56px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font:700 24px ui-monospace,Menlo,Consolas,monospace;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+input[type=text]{width:100%;font:inherit;padding:10px 12px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink)}
+input.pw{max-width:240px;letter-spacing:.3em;font:700 22px ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase;text-align:center}
+.ov{position:fixed;inset:0;background:rgba(45,25,80,.6);display:grid;place-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));z-index:20}
+.dlg{background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);width:100%;max-width:520px;max-height:100%;overflow:auto;padding:16px}
+.dh{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.dh .bdg{width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:2px solid var(--ink);display:grid;place-items:center;font:700 17px ui-monospace,monospace;flex:none}
+.dh>div{flex:1}
+.x{background:transparent;border:2px solid var(--ink);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
+.story{color:var(--muted);font-size:15px;margin:0 0 6px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-weight:700;z-index:30;display:none;max-width:90vw;text-align:center}
+.welcome{text-align:center;padding:26px 18px 32px}
+.welcome h1{font-size:clamp(34px,9vw,52px);margin:6px 0}
+.welcome .enjoy{font-size:clamp(19px,5vw,24px);color:var(--muted);margin:0 auto 18px}
+.pet{width:min(220px,60vw);height:auto;display:block;margin:0 auto}
+.wave{transform-origin:132px 166px;animation:wave 1.6s ease-in-out infinite}
+.twinkle{animation:tw 2.4s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-22deg)}}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.wave,.twinkle{animation:none}.obj{transition:none}}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:10px 0}
+th,td{border:2px solid var(--line);padding:5px 8px;text-align:left}
+th{background:var(--slot)}
+footer{text-align:center;margin:16px auto 0;width:fit-content;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:2px 14px;font-size:13px;color:var(--muted);font-weight:700}
+@media (max-width:420px){.slot{width:38px;height:46px;font-size:20px}.body{padding:14px 12px 20px}.obj .lab{font-size:10px;padding:0 5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar"><span>Grammar Escape Room</span><span id="clock"></span><button id="theme" type="button">Switch theme</button></div>
+  <main class="win" id="win"></main>
+  <footer>Made by Maryam Mubashar &middot; Functional English</footer>
+</div>
+<div id="modal"></div><div id="toast" role="status"></div>
+<script>
+(function(){
+var PET='<svg class="pet" viewBox="0 0 200 200" role="img" aria-label="A cute waving robot cat"><g stroke="#2b2f4a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><polygon points="50,66 54,28 86,52" fill="#ffd966"/><polygon points="150,66 146,28 114,52" fill="#ffd966"/><polygon points="58,56 59,40 74,52" fill="#ff9fb2" stroke="none"/><polygon points="142,56 141,40 126,52" fill="#ff9fb2" stroke="none"/><rect x="68" y="150" width="64" height="38" rx="18" fill="#7ea0ff"/><line x1="68" y1="166" x2="50" y2="178"/><rect x="38" y="50" width="124" height="104" rx="44" fill="#ffd966"/><g class="wave"><line x1="132" y1="166" x2="158" y2="142"/><circle cx="161" cy="138" r="9" fill="#ffd966"/></g></g><g fill="#2b2f4a"><circle cx="78" cy="96" r="10"/><circle cx="122" cy="96" r="10"/></g><g fill="#fff"><circle cx="81" cy="92" r="3.5"/><circle cx="125" cy="92" r="3.5"/></g><g fill="#ff9fb2" opacity=".85"><ellipse cx="60" cy="118" rx="9" ry="5.5"/><ellipse cx="140" cy="118" rx="9" ry="5.5"/></g><path d="M92 114 Q96 122 100 114 Q104 122 108 114" fill="none" stroke="#2b2f4a" stroke-width="3.5" stroke-linecap="round"/><path d="M100 178 c-9-7-6-14 0-10 c6-4 9 3 0 10z" fill="#ff7a90"/><g class="twinkle" fill="#ff7a90"><path d="M24 48 l3 8 8 3 -8 3 -3 8 -3-8 -8-3 8-3z"/><path d="M176 76 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5-6 -6-2.5 6-2.5z" fill="#7ea0ff"/><path d="M168 24 l2 5 5 2 -5 2 -2 5 -2-5 -5-2 5-2z"/></g></svg>';
+var STROKE='stroke="#3b2a5a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+var ICON={
+door:'<svg viewBox="0 0 100 120" preserveAspectRatio="xMidYMax meet"><g '+STROKE+'><rect x="10" y="6" width="80" height="112" rx="12" fill="#ff9fc2"/><rect x="22" y="18" width="56" height="32" rx="8" fill="#ffd3e4"/><path d="M50 42c-7-8-17 0-8 7l8 7 8-7c9-7-1-15-8-7z" fill="#ff5c8a"/><rect x="26" y="62" width="30" height="40" rx="6" fill="#fff6fb"/><circle cx="34" cy="72" r="2.5" fill="#3b2a5a"/><circle cx="42" cy="72" r="2.5" fill="#3b2a5a"/><circle cx="50" cy="72" r="2.5" fill="#3b2a5a"/><circle cx="34" cy="82" r="2.5" fill="#3b2a5a"/><circle cx="42" cy="82" r="2.5" fill="#3b2a5a"/><circle cx="50" cy="82" r="2.5" fill="#3b2a5a"/><circle cx="42" cy="92" r="2.5" fill="#3b2a5a"/><circle cx="74" cy="84" r="6" fill="#ffd966"/></g></svg>',
+board:'<svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><g '+STROKE+'><rect x="6" y="6" width="108" height="62" rx="8" fill="#fff"/><rect x="14" y="68" width="92" height="7" rx="3" fill="#c79b6d"/><path d="M18 22h46M18 34h60M18 46h38" stroke="#a58bff" stroke-width="4" fill="none"/><rect x="76" y="14" width="30" height="26" rx="3" fill="#ffe27a" transform="rotate(5 91 27)"/><path d="M82 24h16M82 31h12" stroke-width="2.5" fill="none" transform="rotate(5 91 27)"/><circle cx="90" cy="13" r="4" fill="#ff5c8a"/><path d="M70 52q8-8 16 0t16 0" stroke="#5fd3a8" stroke-width="4" fill="none"/></g></svg>',
+shelf:'<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet"><g '+STROKE+'><rect x="8" y="4" width="84" height="94" rx="8" fill="#f2b880"/><rect x="16" y="12" width="68" height="24" fill="#ffe9d6"/><rect x="16" y="44" width="68" height="24" fill="#ffe9d6"/><rect x="16" y="76" width="68" height="16" fill="#ffe9d6"/><rect x="20" y="14" width="8" height="22" fill="#ff7fb0"/><rect x="30" y="18" width="8" height="18" fill="#7cc6ff"/><rect x="40" y="12" width="9" height="24" fill="#a58bff"/><rect x="62" y="16" width="8" height="20" fill="#5fd3a8"/><rect x="72" y="20" width="8" height="16" fill="#ffd966"/><rect x="20" y="48" width="9" height="20" fill="#ffd966"/><rect x="31" y="46" width="8" height="22" fill="#5fd3a8"/><rect x="58" y="50" width="22" height="18" rx="3" fill="#fff" transform="rotate(-6 69 59)"/><rect x="22" y="78" width="14" height="14" fill="#ff7fb0"/><rect x="38" y="80" width="8" height="12" fill="#7cc6ff"/></g></svg>',
+laptop:'<svg viewBox="0 0 100 80" preserveAspectRatio="xMidYMax meet"><g '+STROKE+'><rect x="14" y="4" width="72" height="50" rx="7" fill="#cfe8ff"/><rect x="20" y="10" width="60" height="38" rx="4" fill="#fff"/><circle cx="40" cy="26" r="3" fill="#3b2a5a"/><circle cx="60" cy="26" r="3" fill="#3b2a5a"/><path d="M42 36q8 6 16 0" fill="none"/><path d="M4 60h92l-8 14H12z" fill="#e8dcff"/></g></svg>',
+phone:'<svg viewBox="0 0 60 60" preserveAspectRatio="xMidYMax meet"><g '+STROKE+'><rect x="6" y="26" width="48" height="30" rx="9" fill="#7cc6ff"/><path d="M8 24q22-16 44 0" fill="none" stroke-width="8"/><path d="M8 24q22-16 44 0" fill="none" stroke="#ff7fb0" stroke-width="3"/><circle cx="30" cy="42" r="8" fill="#fff"/><circle cx="30" cy="42" r="2.5" fill="#3b2a5a"/></g></svg>',
+cab:'<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet"><g '+STROKE+'><rect x="8" y="6" width="84" height="90" rx="10" fill="#b9a4ff"/><rect x="16" y="14" width="68" height="34" rx="6" fill="#d8ccff"/><rect x="16" y="54" width="68" height="34" rx="6" fill="#d8ccff"/><circle cx="50" cy="31" r="5" fill="#ffd966"/><rect x="42" y="62" width="16" height="14" rx="3" fill="#ffd966"/><path d="M46 62v-5a4 4 0 0 1 8 0v5" fill="none"/></g></svg>'
+};
+var LOCKS=[
+{id:1,obj:"Laptop",topic:"Tenses",pos:[29,42,28,28],ic:"laptop",
+ story:"The laptop is flashing a glitchy error log. Fix the sentence to wake it up.",
+ type:"choice",q:"By the time Ayesha opened the folder, someone ______ the backup file.",
+ opts:["has deleted","had deleted","was deleting","deletes"],right:1,
+ show:"By the time Ayesha opened the folder, someone had deleted the backup file.",
+ hint:"Two past events happened. The one that happened first uses had + past participle.",
+ why:"The deleting happened before Ayesha opened the folder, so it uses the past perfect tense (had + past participle). The later action, opened, is in the simple past.",
+ clue:"Take the first letter of the main verb in the correct sentence.",letter:"D",tiles:["H","D","S","L","W"]},
+{id:2,obj:"Bookshelf",topic:"Subject\u2013verb agreement",pos:[75,4,22,46],ic:"shelf",
+ story:"A torn note sticks out from between two books. One word is missing.",
+ type:"choice",q:"Neither the password nor the hints ______ written on the screen.",
+ opts:["is","are"],right:1,
+ show:"Neither the password nor the hints are written on the screen.",
+ hint:"Look at the subject nearest to the verb. Is it singular or plural?",
+ why:"With neither \u2026 nor, the verb agrees with the subject nearer to it. Hints is plural, so the plural verb are is correct.",
+ clue:"Take the last letter of the correct verb.",letter:"E",tiles:["A","E","R","S","T"]},
+{id:3,obj:"Whiteboard",topic:"Punctuation",pos:[27,6,44,30],ic:"board",
+ story:"Someone wiped the punctuation off the whiteboard message. Put it back.",
+ type:"punct",words:["Before","you","enter","remember","to","bring","your","laptop","your","charger","and","your","ID","card"],
+ show:"Before you enter, remember to bring your laptop, your charger, and your ID card.",
+ hint:"Add a comma after the opening phrase and between the list items. End the sentence with a full stop.",
+ why:"A comma follows the introductory phrase (Before you enter), commas separate the items in a list, and a full stop ends the sentence.",
+ clue:"Find the word that comes right after \u201cto\u201d in the finished sentence. Take its first letter.",letter:"B",tiles:["R","B","T","Y","L"]},
+{id:4,obj:"Cabinet",topic:"Active and passive voice",pos:[75,54,22,36],ic:"cab",
+ story:"The cabinet has a word-tile lock. Rewrite \u201cThe administrator has unlocked the secret door.\u201d in the passive voice by tapping the tiles in order.",
+ type:"build",words:["unlocked","The","been","administrator","by","secret","has","door","the"],
+ target:"The secret door has been unlocked by the administrator",
+ show:"The secret door has been unlocked by the administrator.",
+ hint:"Start with the object (The secret door). Then has been + past participle, then by + the doer.",
+ why:"In the passive voice the object becomes the subject, the verb is be + past participle (has been unlocked), and the doer comes after by.",
+ clue:"Take the first letter of the word between \u201cbeen\u201d and \u201cby\u201d.",letter:"U",tiles:["U","B","A","T","S"]},
+{id:5,obj:"Phone",topic:"Direct and indirect speech",pos:[61,54,12,16],ic:"phone",
+ story:"The desk phone has a voicemail from the librarian: \u201cI am going to lock the vault at noon.\u201d Which message reports it correctly?",
+ type:"choice",q:"Ms. Hina, the librarian, said, \u201cI am going to lock the vault at noon.\u201d",
+ opts:["Ms. Hina said that I was going to lock the vault at noon.","Ms. Hina said that she was going to lock the vault at noon.","Ms. Hina said that she am going to lock the vault at noon.","Ms. Hina said that she was go to lock the vault at noon."],right:1,
+ show:"Ms. Hina said that she was going to lock the vault at noon.",
+ hint:"I becomes she, and the verb moves one step back in time.",
+ why:"Indirect speech has no quotation marks. The pronoun I changes to she, and the verb shifts back: am going becomes was going.",
+ clue:"Take the first letter of the word that comes right after \u201cwas\u201d.",letter:"G",tiles:["G","W","S","L","I"]}
+];
+var PASS="DEBUG",$=function(id){return document.getElementById(id)};
+var win=$("win"),clock=$("clock");
+var step=-2,solved=[false,false,false,false,false],letters=[null,null,null,null,null],secs=600,timer=null;
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function fmt(n){var m=Math.floor(n/60),s=n%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s}
+function tick(){clock.innerHTML=secs>0?"Midnight in <b>"+fmt(secs)+"</b>":"<b>Midnight passed. Keep going!</b>"}
+function startTimer(){if(timer)return;tick();timer=setInterval(function(){if(secs>0)secs--;tick()},1000)}
+function toast(t){var e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(function(){e.style.display="none"},2600)}
+function slots(){
+  var h='<div class="slots" role="img" aria-label="Door code letters found: '+(letters.map(function(x){return x||"?"}).join(" "))+'">';
+  for(var i=0;i<5;i++)h+='<div class="slot'+(letters[i]?" on":"")+'"><small>'+(i+1)+'</small>'+(letters[i]||"?")+'</div>';
+  return h+'</div>';
+}
+function allDone(){return solved.every(Boolean)}
+function sceneHTML(){
+  var h='<div class="scene"><div class="deco desk"></div><div class="deco leg" style="left:26%"></div><div class="deco leg" style="left:67%"></div><div class="deco rug"></div>';
+  h+='<button class="obj'+(allDone()?" done":"")+'" id="door" style="left:3%;top:6%;width:20%;height:64%" aria-label="Door keypad"><span class="bd">&#9919;</span>'+ICON.door+'<span class="lab">Door</span></button>';
+  LOCKS.forEach(function(L,i){
+    var p=L.pos;
+    h+='<button class="obj'+(solved[i]?" done":"")+'" data-i="'+i+'" style="left:'+p[0]+'%;top:'+p[1]+'%;width:'+p[2]+'%;height:'+p[3]+'%" aria-label="'+L.obj+', puzzle '+L.id+(solved[i]?", solved":"")+'"><span class="bd">'+(solved[i]?letters[i]:L.id)+'</span>'+ICON[L.ic]+'<span class="lab">'+L.obj+'</span></button>';
+  });
+  return h+'</div>';
+}
+function render(){
+  var h="";
+  if(step===-2){
+    h='<div class="welcome">'+PET+'<h1>Hi Mam!</h1><p class="enjoy">Enjoy the game...........</p><div class="row" style="justify-content:center"><button class="btn" id="go" type="button">Let\u2019s go</button></div></div>';
+  }else if(step===-1){
+    h='<div class="title">&#9888; You are locked in the computer lab</div><div class="body"><h1>The Locked Computer Lab</h1>'
+     +'<p>'+INTRO+'</p>'
+     +'<div class="q">Tap the objects in the room to search them. Each one hides a grammar puzzle and one letter of the door code. The five letters go in slot order, 1 to 5.</div>'
+     +'<div class="row"><button class="btn" id="start" type="button">Enter the room</button></div></div>';
+  }else if(step===0){
+    h='<div class="title">'+(allDone()?"&#128275; All letters found: try the door!":"&#128274; Door locked. Project due at midnight.")+'</div><div class="body">'+slots()
+     +'<p class="tip">Tap an object to search it. The number badge shows which slot its letter belongs to.</p>'+sceneHTML()+'</div>';
+  }else{
+    h='<div class="title ok">&#10003; Door open. You escaped!</div><div class="body">'+slots()
+     +'<h1>You escaped, and the project is saved!</h1><p>The code <b>DEBUG</b> opened the door. Ayesha submitted her project before midnight.</p><table><tr><th>#</th><th>Object</th><th>Topic</th><th>Letter</th></tr>';
+    LOCKS.forEach(function(l,i){h+='<tr><td>'+l.id+'</td><td>'+l.obj+'</td><td>'+l.topic+'</td><td><b>'+l.letter+'</b></td></tr>'});
+    h+='</table><p>The letters spell DEBUG because debugging means finding and fixing errors, just like you did with grammar.</p><div class="row"><button class="btn" id="again" type="button">Play again</button></div></div>';
+  }
+  win.innerHTML=h;
+  if($("go"))$("go").onclick=function(){step=-1;render()};
+  if($("start"))$("start").onclick=function(){step=0;startTimer();render()};
+  if($("again"))$("again").onclick=function(){step=-1;solved=[false,false,false,false,false];letters=[null,null,null,null,null];secs=600;if(timer){clearInterval(timer);timer=null}clock.textContent="";render()};
+  if($("door"))$("door").onclick=openDoor;
+  Array.prototype.forEach.call(win.querySelectorAll(".obj[data-i]"),function(b){b.onclick=function(){openLock(+b.getAttribute("data-i"))}});
+}
+function dlg(html){
+  $("modal").innerHTML='<div class="ov"><div class="dlg" role="dialog" aria-modal="true">'+html+'</div></div>';
+  $("x").onclick=closeM;
+  $("modal").firstChild.addEventListener("click",function(e){if(e.target===this)closeM()});
+}
+function closeM(){$("modal").innerHTML=""}
+function head(num,title,topic){return '<div class="dh"><span class="bdg">'+num+'</span><div><h2>'+title+'</h2><p class="topic">'+topic+'</p></div><button class="x" id="x" type="button" aria-label="Close">&times;</button></div>'}
+function say(cls,t){var f=$("fb");if(f)f.innerHTML='<div class="msg '+cls+'">'+t+'</div>'}
+
+function openLock(i){
+  var L=LOCKS[i];
+  if(solved[i]){
+    dlg(head(L.id,L.obj,L.topic)+'<div class="msg good"><b>Already solved.</b> '+esc(L.show)+'</div><div class="rule"><b>Why it works</b>'+L.why+'</div><div class="rule"><b>Letter</b>'+L.letter+' goes in slot '+L.id+'.</div>');
+    return;
+  }
+  var no=[],chosen=[],marks=L.type==="punct"?L.words.map(function(){return ""}):null;
+  function draw(){
+    var h=head(L.id,L.obj,L.topic)+'<p class="story">'+L.story+'</p>';
+    if(L.type==="choice"){
+      h+='<div class="q">'+esc(L.q)+'</div><div class="opts">';
+      L.opts.forEach(function(o,k){h+='<button class="opt'+(no.indexOf(k)>-1?" no":"")+'" data-k="'+k+'" type="button"'+(no.indexOf(k)>-1?" disabled":"")+'>'+esc(o)+'</button>'});
+      h+='</div>';
+    }else if(L.type==="build"){
+      h+='<div class="built chips" aria-label="Your sentence">';
+      chosen.forEach(function(w,k){h+='<button class="chip" data-c="'+k+'" type="button">'+esc(L.words[w])+'</button>'});
+      if(!chosen.length)h+='<span class="topic">Tap the tiles below</span>';
+      h+='</div><div class="chips">';
+      L.words.forEach(function(w,k){if(chosen.indexOf(k)<0)h+='<button class="chip" data-b="'+k+'" type="button">'+esc(w)+'</button>'});
+      h+='</div><div class="row"><button class="btn" id="chk" type="button">Check</button><button class="btn ghost" id="clr" type="button">Clear</button></div>';
+    }else{
+      h+='<div class="q">Tap the small gaps between words to add a comma or a full stop.</div><div class="pun">';
+      L.words.forEach(function(w,k){h+='<span>'+w+'</span><button class="gap'+(marks[k]?" set":"")+'" data-g="'+k+'" type="button" aria-label="Gap after '+w+'">'+(marks[k]||"+")+'</button>'});
+      h+='</div><div class="row"><button class="btn" id="chk" type="button">Check</button></div>';
+    }
+    h+='<div id="fb"></div><div class="row"><button class="btn ghost" id="hb" type="button">Show hint</button></div>';
+    dlg(h);
+    $("hb").onclick=function(){say("hint",L.hint)};
+    Array.prototype.forEach.call($("modal").querySelectorAll(".opt"),function(b){b.onclick=function(){
+      var k=+b.getAttribute("data-k");
+      if(k===L.right)clueStage(i);else{no.push(k);draw();say("bad","Not quite. Try another one.")}
+    }});
+    Array.prototype.forEach.call($("modal").querySelectorAll("[data-b]"),function(b){b.onclick=function(){chosen.push(+b.getAttribute("data-b"));draw()}});
+    Array.prototype.forEach.call($("modal").querySelectorAll("[data-c]"),function(b){b.onclick=function(){chosen.splice(+b.getAttribute("data-c"),1);draw()}});
+    Array.prototype.forEach.call($("modal").querySelectorAll("[data-g]"),function(b){b.onclick=function(){
+      var k=+b.getAttribute("data-g");marks[k]=marks[k]===""?",":(marks[k]===","?".":"");draw()}});
+    if($("clr"))$("clr").onclick=function(){chosen=[];draw()};
+    if($("chk"))$("chk").onclick=function(){
+      var ok;
+      if(L.type==="build")ok=chosen.map(function(w){return L.words[w]}).join(" ")===L.target;
+      else{
+        ok=true;
+        marks.forEach(function(m,k){
+          var want=(k===2||k===7)?",":(k===13?".":"");
+          if(k===9){if(m!==""&&m!==",")ok=false}else if(m!==want)ok=false;
+        });
+      }
+      if(ok)clueStage(i);else say("bad",L.type==="build"?"Not quite. Check the order of the words.":"Not quite. Check where the commas and the full stop go.");
+    };
+  }
+  draw();
+}
+function clueStage(i){
+  var L=LOCKS[i],h=head(L.id,L.obj,L.topic)
+   +'<div class="msg good"><b>Unlocked!</b> '+esc(L.show)+'</div><div class="rule"><b>Why it works</b>'+L.why+'</div><div class="rule"><b>Clue</b>'+L.clue+'</div><p>Tap the letter you found:</p><div class="tiles">';
+  L.tiles.forEach(function(t){h+='<button class="tile" data-t="'+t+'" type="button">'+t+'</button>'});
+  h+='</div><div id="fb"></div>';
+  dlg(h);
+  Array.prototype.forEach.call($("modal").querySelectorAll(".tile"),function(b){b.onclick=function(){
+    if(b.getAttribute("data-t")===L.letter){
+      solved[i]=true;letters[i]=L.letter;closeM();render();
+      toast(allDone()?"All 5 letters found! Try the door.":"Letter "+L.letter+" goes in slot "+L.id+"!");
+    }else say("bad","That is not the letter. Read the clue again and look at the sentence.");
+  }});
+}
+function openDoor(){
+  var h=head("&#9919;","The Door","Keypad: 5 letters")+slots();
+  if(!allDone()){
+    h+='<div class="msg bad">The keypad blinks: <b>CODE INCOMPLETE</b>. Solve all five puzzles in the room to find every letter.</div>';
+  }else{
+    h+='<div class="msg hint">Screen hint: \u201cWhat do programmers do to find and fix errors? (5 letters)\u201d</div>'
+     +'<p style="margin-top:12px">Type the letters in slot order.</p><input type="text" class="pw" id="pw" maxlength="5" autocomplete="off" aria-label="Door code"><div class="row"><button class="btn" id="open" type="button">Open door</button></div><div id="fb"></div>';
+  }
+  dlg(h);
+  function go(){
+    if($("pw").value.trim().toUpperCase()===PASS){closeM();step=1;render()}
+    else say("bad","ACCESS DENIED. Check the slot order.");
+  }
+  if($("open")){$("open").onclick=go;$("pw").addEventListener("keydown",function(e){if(e.key==="Enter")go()});$("pw").focus()}
+}
+$("theme").onclick=function(){
+  var r=document.documentElement,cur=r.getAttribute("data-theme");
+  var dark=cur?cur==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;
+  r.setAttribute("data-theme",dark?"light":"dark");
+};
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeM()});
+var INTRO='It is 11:50 p.m. Ayesha, a software engineering student, is working late in the computer lab when the lights flicker and the door locks itself. Her final project is due at midnight! A message on the laptop reads: \u201cSolve five grammar puzzles hidden in this room to find the five-letter door code.\u201d Help Ayesha search the room, solve every puzzle, and escape before the deadline.';
+render();
+})();
+</script>
+</body>
+</html>
